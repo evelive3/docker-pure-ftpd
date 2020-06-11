@@ -3,12 +3,12 @@ FROM debian:stretch as builder
 
 # properly setup debian sources
 ENV DEBIAN_FRONTEND noninteractive
-RUN echo "deb http://http.debian.net/debian stretch main\n\
-deb-src http://http.debian.net/debian stretch main\n\
-deb http://http.debian.net/debian stretch-updates main\n\
-deb-src http://http.debian.net/debian stretch-updates main\n\
-deb http://security.debian.org stretch/updates main\n\
-deb-src http://security.debian.org stretch/updates main\n\
+RUN echo "deb http://mirrors.tuna.tsinghua.edu.cn/debian stretch main\n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian stretch main\n\
+deb http://mirrors.tuna.tsinghua.edu.cn/debian stretch-updates main\n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian stretch-updates main\n\
+deb http://mirrors.tuna.tsinghua.edu.cn/debian-security stretch/updates main\n\
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security stretch/updates main\n\
 " > /etc/apt/sources.list
 
 # install package building helpers
@@ -33,6 +33,10 @@ FROM debian:stretch
 
 # feel free to change this ;)
 LABEL maintainer "Andrew Stilliard <andrew.stilliard@gmail.com>"
+
+# use tuna mirror
+RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
 
 # install dependencies
 # FIXME : libcap2 is not a dependency anymore. .deb could be fixed to avoid asking this dependency
